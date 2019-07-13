@@ -16,3 +16,10 @@ Content-Type: application/json
 }
 
 ###
+
+### Get request with a header
+GET https://api.telegram.org/bot{{key}}/getWebHookInfo
+Accept: application/json
+
+###
+
