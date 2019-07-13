@@ -1,0 +1,18 @@
+### Get request with a header
+GET https://api.telegram.org/bot{{key}}/getMe
+Accept: application/json
+
+### Get request with a header
+GET https://api.telegram.org/bot{{key}}/getUpdates
+Accept: application/json
+
+
+### Send POST request with json body
+POST https://api.telegram.org/bot{{key}}/setwebhook
+Content-Type: application/json
+
+{
+ "url": ""
+}
+
+###
