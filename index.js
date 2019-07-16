@@ -1,5 +1,5 @@
 const fs = require("fs");
-const TelegramBot = require('node-telegram-bot-api');
+//const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const app = express();
 const https = require('https');
@@ -10,7 +10,7 @@ let contents = fs.readFileSync("./requests/http-client.private.env.json");
 const params = JSON.parse(contents);
 const key = params.development.key;
 const port = params.development.port;
-const bot = new TelegramBot(key, {polling: true});
+//const bot = new TelegramBot(key, {polling: true});
 
 const data = [];
 
@@ -38,11 +38,13 @@ app.get('/robots.txt', (req, res) => {
 });
 
 // Listening
-https.createServer({
+const server = https.createServer({
     key: fs.readFileSync('./server.key'),
     cert: fs.readFileSync('./server.cert')
-}, app).listen(port, () => {
-    console.log(`Listening on port ${port}`);
+}, app);
+
+server.listen(port, () => {
+    console.log("server starting on port : " + port)
 });
 
 /*bot.onText(/\/echo (.+)/, (msg, match) => {
