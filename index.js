@@ -19,17 +19,20 @@ app.use(bodyParser.json());
 // Endpoints
 app.post(`/${key}`, (req, res) => {
     data.push(req.body);
+    console.log(data);
     res.status(200).send([...data]);
 });
 
 // Endpoints
 app.get('/', (req, res) => {
+    console.log(req.body);
     res.send(req.body);
 });
 
 // Endpoints
 app.get('/robots.txt', (req, res) => {
     fs.readFile('./robots.txt', 'utf8', function(err, contents) {
+        console.log(contents);
         res.status(200).send(contents);
     });
 });
