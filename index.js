@@ -3,6 +3,7 @@ const fs = require("fs");
 const express = require('express');
 const app = express();
 const https = require('https');
+const http = require('http');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 
@@ -38,12 +39,19 @@ app.get('/robots.txt', (req, res) => {
 });
 
 // Listening
-const server = https.createServer({
+const httpsServer = https.createServer({
     key: fs.readFileSync('./server.key'),
     cert: fs.readFileSync('./server.cert')
 }, app);
 
-server.listen(port, () => {
+httpsServer.listen(port, () => {
+    console.log("server starting on port : " + port)
+});
+
+// Listening
+const httpServer = http.createServer(app);
+
+httpServer.listen(80, () => {
     console.log("server starting on port : " + port)
 });
 
