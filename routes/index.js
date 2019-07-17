@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-router.use('/', require('./robots'));
-router.use('/', require('./incomeData'));
+router.use('/', require('./Robots'));
+router.use('/', require('./IncomeData'));
 
 module.exports = router;
