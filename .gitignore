@@ -3,3 +3,4 @@
 /requests/http-client.private.env.json
 /server.cert
 /server.key
+/.env
