@@ -1,5 +1,4 @@
 const fs = require("fs");
-//const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const app = express();
 const https = require('https');
@@ -11,7 +10,6 @@ let contents = fs.readFileSync("./requests/http-client.private.env.json");
 const params = JSON.parse(contents);
 const key = params.development.key;
 const port = params.development.port;
-//const bot = new TelegramBot(key, {polling: true});
 
 const data = [];
 
@@ -40,8 +38,8 @@ app.get('/robots.txt', (req, res) => {
 
 // Listening
 const httpsServer = https.createServer({
-    key: fs.readFileSync('./key.pem'),
-    cert: fs.readFileSync('./cert.pem')
+    key: fs.readFileSync('./server.key'),
+    cert: fs.readFileSync('./server.pem')
 }, app);
 
 httpsServer.listen(port, () => {
@@ -52,17 +50,5 @@ httpsServer.listen(port, () => {
 const httpServer = http.createServer(app);
 
 httpServer.listen(80, () => {
-    console.log("server starting on port : " + port)
+    console.log("server starting on port : " + 80)
 });
-
-/*bot.onText(/\/echo (.+)/, (msg, match) => {
-    // 'msg' is the received Message from Telegram
-    // 'match' is the result of executing the regexp above on the text content
-    // of the message
-
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
-
-    // send back the matched "whatever" to the chat
-    bot.sendMessage(chatId, resp);
-});*/
