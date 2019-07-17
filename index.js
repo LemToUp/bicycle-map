@@ -17,9 +17,9 @@ app.use(bodyParser.json());
 
 // Endpoints
 app.post(`/${key}`, (req, res) => {
-    data.push(req.body);
+    //data.push(req.body);
     console.log(data);
-    res.status(200).send([...data]);
+    res.status(200).send(req.body);
 });
 
 // Endpoints
