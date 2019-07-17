@@ -5,21 +5,22 @@ const https = require('https');
 const http = require('http');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
 
 let contents = fs.readFileSync("./requests/http-client.private.env.json");
 const params = JSON.parse(contents);
 const key = params.development.key;
 const port = params.development.port;
+mongoose.connect("mongodb://localhost:27017/bot", { useNewUrlParser: true });
 
-const data = [];
-
+const RequestCollection = mongoose.model('Request', { request: Object  });
 app.use(bodyParser.json());
 
 // Endpoints
 app.post(`/${key}`, (req, res) => {
-    //data.push(req.body);
-    console.log(data);
-    res.status(200).send(req.body);
+    let requestModel = new RequestCollection({ request: req.body});
+    requestModel.save();
+    res.status(200).send('Ok');
 });
 
 // Endpoints
