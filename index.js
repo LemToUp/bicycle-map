@@ -25,7 +25,7 @@ const httpsServer = https.createServer({
     cert: fs.readFileSync('./server.pem')
 }, app);
 
-httpsServer.listen(port, () => {
+httpsServer.listen(process.env.PORT, () => {
     console.log("server starting on port : " + process.env.PORT)
 });
 
