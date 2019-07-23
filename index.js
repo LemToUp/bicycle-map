@@ -7,7 +7,10 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/bot", { useNewUrlParser: true });
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:27017/${process.env.DB_NAME}`, { useNewUrlParser: true }).catch(function(err) {
+    console.log(err);
+});
+
 require('./models/Request');
 
 app.use(bodyParser.json());
