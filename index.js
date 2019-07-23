@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const https = require('https');
 const http = require('http');
+const Telegraf = require('telegraf');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 
@@ -11,10 +12,18 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@lo
     console.log(err);
 });
 
+const bot = new Telegraf(process.env.TOKEN);
+bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hello</b>'));
+
+bot.telegram.setWebhook(`${process.env.URL}/${process.env.TOKEN}`, {
+    source: './server.pem'
+});
+
 require('./models/Request');
 
 app.use(bodyParser.json());
-
+app.use(require('./middlewares/logger'));
+app.use(bot.webhookCallback(`/${process.env.TOKEN}`));
 app.use(require('./routes'));
 
 /// catch 404 and forward to error handler
