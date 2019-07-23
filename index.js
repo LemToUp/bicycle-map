@@ -4,7 +4,11 @@ const express = require('express');
 const app = express();
 const https = require('https');
 const http = require('http');
+
 const Telegraf = require('telegraf');
+const Extra = require('telegraf/extra');
+const Markup = require('telegraf/markup');
+
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 
@@ -13,18 +17,23 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@lo
 });
 
 const bot = new Telegraf(process.env.TOKEN);
-bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hello</b>'));
+
+const keyboard = Markup.inlineKeyboard([
+    Markup.urlButton('❤️', 'http://telegraf.js.org'),
+    Markup.callbackButton('Delete', 'delete')
+]);
+
+bot.on('message', (ctx) => ctx.telegram.sendCopy(ctx.from.id, ctx.message, Extra.markup(keyboard)));
 
 bot.telegram.setWebhook(`${process.env.URL}/${process.env.TOKEN}`, {
     source: './server.pem'
 });
 
 require('./models/Request');
+bot.use(require('./middlewares/logger'));
 
-app.use(bodyParser.json());
-app.use(require('./middlewares/logger'));
-app.use(bot.webhookCallback(`/${process.env.TOKEN}`));
 app.use(require('./routes'));
+app.use(bot.webhookCallback(`/${process.env.TOKEN}`));
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
