@@ -8,3 +8,4 @@ db.createCollection('request');
 db.createUser({user: 'bot_user', pwd: 'password', roles: ['readWrite']});
 
 sed -i -e "\$a alias bot='cd \/mnt\/d\/projects\/bot\/;'" ~/.bashrc
+sed -i -e "\$a alias bot='cd \/var\/bot\/;'" ~/.bashrc
